@@ -1,0 +1,20 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  syntax:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install light deps
+        run: pip install pyyaml
+      - name: Compile all sources
+        run: python -m compileall -q src scripts
+      - name: Load shared config
+        run: python -c "from src.config import load_config; c=load_config('configs/base.yaml'); print('classes:', len(c['data']['classes']), 'splits:', c['data']['splits'])"

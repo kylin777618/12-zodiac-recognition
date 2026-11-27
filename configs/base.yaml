@@ -1,0 +1,43 @@
+# =====================================================================
+# 全组统一口径。改这个文件必须经组长确认（见 docs/统一技术口径.md）。
+# =====================================================================
+project: 12-zodiac-recognition
+seed: 42
+
+data:
+  root: data
+  # 目录名（也是代码里的类别顺序，不要改顺序）
+  classes: [rat, ox, tiger, rabbit, dragon, snake, horse, goat, monkey, rooster, dog, pig]
+  classes_zh: [鼠, 牛, 虎, 兔, 龙, 蛇, 马, 羊, 猴, 鸡, 狗, 猪]
+  per_class: 125
+  splits: {train: 1200, val: 150, test: 150}   # 8:1:1 分层抽样
+  split_file: data/split.json
+  img_size: 224
+  num_workers: 4
+
+train:
+  epochs: 30
+  batch_size: 32
+  optimizer: adam
+  lr: 0.0003
+  weight_decay: 0.0001
+  early_stop_patience: 5
+  scheduler: cosine
+  num_classes: 12
+
+models: [baseline_cnn, vgg16, resnet50]
+
+# D 负责的 12 组调参：3 学习率 x 2 优化器 x 2 激活函数
+tuning:
+  learning_rates: [0.001, 0.0003, 0.0001]
+  optimizers: [sgd, adam]
+  activations: [relu, leaky_relu]
+  batch_size: 32
+  epochs: 30
+
+metrics: [accuracy, precision_macro, recall_macro, f1_macro, confusion_matrix]
+
+paths:
+  weights: models
+  results: results
+  logs: results/logs

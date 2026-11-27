@@ -1,0 +1,25 @@
+# ---- Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.ipynb_checkpoints/
+
+# ---- 数据与权重：体积大，走网盘 / Release，不入库
+data/*
+!data/README.md
+models/*.pth
+models/*.pt
+models/*.pdparams
+models/*.onnx
+results/logs/
+results/*.png
+results/*.csv
+
+# ---- 本地环境
+.env
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
